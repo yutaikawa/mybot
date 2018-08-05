@@ -13,5 +13,17 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 // 各イベントをループで処理
 foreach ($events as $event) {
 	// テキストを返信
-	$bot->replyText($event->getReplyToken(), 'TextMessage');
+	replyTextMessage($bot, $event->getReplyToken(), '返信用のテキスト');
+}
+
+
+function replyTextMessage($bot, $replyToken, $text)
+{
+	$response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text));
+
+	// レスポンスが異常な場合
+	if (!$response->isSucceeded()) {
+		// エラーを出力
+		error_log('Failed! ' . $response->getHTTPStatus . ' ' . $response->getRawBody());
+	}
 }
