@@ -12,16 +12,25 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
 // 各イベントをループで処理
 foreach ($events as $event) {
-	// テキストを返信
-	replyTextMessage($bot, $event->getReplyToken(), '返信用のテキスト');
+	replyImageMessage($bot, $event->getReplyToken(), 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/original.jpg', 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/preview.jpg');
 }
 
-
+// テキストを返信。引数はLINEBot,返信先,テキスト
 function replyTextMessage($bot, $replyToken, $text)
 {
 	$response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text));
 
 	// レスポンスが異常な場合
+	if (!$response->isSucceeded()) {
+		// エラーを出力
+		error_log('Failed! ' . $response->getHTTPStatus . ' ' . $response->getRawBody());
+	}
+}
+
+// 画像を返信
+function replyImageMessage($bot, $replyToken, $originalImageUrl, $previewImageUrl)
+{
+	$response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder($originalImageUrl, $previewImageUrl));
 	if (!$response->isSucceeded()) {
 		// エラーを出力
 		error_log('Failed! ' . $response->getHTTPStatus . ' ' . $response->getRawBody());
