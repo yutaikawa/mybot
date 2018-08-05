@@ -12,31 +12,19 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
 // 各イベントをループで処理
 foreach ($events as $event) {
-	// イベントがPostbackTemaplateAction の時
-	if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
-		replyTextMessage($bot, $event->getReplyToken(), 'Postback受信「' . $event->getPostbackData() . '」');
-
-		continue;
-	}
-	// Buttonテンプレートメッセージを返信
-	replyButtonsTemplate(
+	// Confirmメッセージを返信
+	replyConfirmTemplate(
 		$bot,
 		$event->getReplyToken(),
-		'お天気お知らせ - 今日は天気予報は晴れです',
-		'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-		'お天気お知らせ',
-		'今日は天気予報は晴れです',
-		new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-			'明日の天気',
-			'tomorrow'
-		),
-		new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder(
-			'週末の天気',
-			'weekend'
-		),
+		'Webで詳しく見ますか？',
+		'Webで詳しく見ますか？',
 		new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder(
-			'webで見る',
+			'見る',
 			'http://google.jp'
+		),
+		new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+			'見ない',
+			'ignore'
 		)
 	);
 }
@@ -75,6 +63,26 @@ function replyButtonsTemplate($bot, $replyToken, $alternativeText, $imageUrl, $t
 	$builder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
 		$alternativeText,
 		new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder($title, $text, $imageUrl, $actionArray)
+	);
+	$response = $bot->replyMessage($replyToken, $builder);
+	if (!$response->isSucceeded()) {
+		// エラーを出力
+		error_log('Failed! ' . $response->getHTTPStatus . ' ' . $response->getRawBody());
+	}
+}
+
+// Confirmテンプレートを返信
+function replyConfirmTemplate($bot, $replyToken, $alternativeText, $text, ...$actions)
+{
+	$actionArray = [];
+	// アクションを追加
+	foreach ($actions as $action) {
+		array_push($actionArray, $action);
+	}
+
+	$builder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
+		$alternativeText,
+		new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder($text, $actionArray)
 	);
 	$response = $bot->replyMessage($replyToken, $builder);
 	if (!$response->isSucceeded()) {
