@@ -30,7 +30,7 @@ function replyTextMessage($bot, $replyToken, $text)
 // 画像を返信
 function replyImageMessage($bot, $replyToken, $originalImageUrl, $previewImageUrl)
 {
-	$response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder($originalImageUrl, $previewImageUrl));
+	$response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($originalImageUrl, $previewImageUrl));
 	if (!$response->isSucceeded()) {
 		// エラーを出力
 		error_log('Failed! ' . $response->getHTTPStatus . ' ' . $response->getRawBody());
