@@ -12,6 +12,12 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
 // 各イベントをループで処理
 foreach ($events as $event) {
+	// イベントがPostbackTemaplateAction の時
+	if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+		replyTextMessage($bot, $event->getReplyToken(), 'Postback受信「' . $event->getPostbackData() . '」');
+
+		continue;
+	}
 	// Buttonテンプレートメッセージを返信
 	replyButtonsTemplate(
 		$bot,
