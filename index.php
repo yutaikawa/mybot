@@ -15,7 +15,7 @@ foreach ($events as $event) {
 	$user_text = $event->getText();
 	$search_word = '住所';
 
-//	if (mb_strpos($user_text, $search_word) != false) {
+	if (mb_strpos($user_text, $search_word) !== false) {
 		// Confirmメッセージを返信
 		replyLocationMessage(
 			$bot,
@@ -25,7 +25,7 @@ foreach ($events as $event) {
 			34.689580,
 			135.198358
 		);
-//	}
+	}
 
 }
 
