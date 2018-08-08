@@ -1,7 +1,7 @@
 <?php
 
-// ライブラリを読み込み
-require_once(__DIR__ . '/line-bot-sdk-php/vendor/autoload.php');
+// Composerでインストールしたライブラリを一括読み込み
+require_once __DIR__ . '/vendor/autoload.php';
 
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
 $bot = new LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
@@ -15,7 +15,7 @@ foreach ($events as $event) {
 	$user_text = $event->getText();
 	$search_word = '住所';
 
-	if (mb_strpos($user_text, $search_word) != false) {
+//	if (mb_strpos($user_text, $search_word) != false) {
 		// Confirmメッセージを返信
 		replyLocationMessage(
 			$bot,
@@ -25,7 +25,7 @@ foreach ($events as $event) {
 			34.689580,
 			135.198358
 		);
-	}
+//	}
 
 }
 
