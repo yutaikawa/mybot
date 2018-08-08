@@ -48,18 +48,20 @@ $image_array = [
 ];
 
 $columnArray = [];
+$action_array = [];
+array_push($action_array, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(''));
 $column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
 	'test',
 	'test text',
 	'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
-	[]
+	$action_array
 );
 array_push($columnArray, $column1);
 $column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
 	'tes2',
 	'test tex2',
 	'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
-	[]
+	$action_array
 );
 array_push($columnArray, $column2);
 
