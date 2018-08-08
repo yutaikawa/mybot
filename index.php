@@ -13,19 +13,13 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 // 各イベントをループで処理
 foreach ($events as $event) {
 	// Confirmメッセージを返信
-	replyConfirmTemplate(
+	replyLocationMessage(
 		$bot,
 		$event->getReplyToken(),
-		'Webで詳しく見ますか？',
-		'Webで詳しく見ますか？',
-		new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder(
-			'見る',
-			'http://google.jp'
-		),
-		new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-			'見ない',
-			'ignore'
-		)
+		'maxim',
+		'兵庫県神戸市中央区磯辺通３丁目２−１１ 8F 三宮ファーストビル',
+		34.689580,
+		135.198358
 	);
 }
 
@@ -68,6 +62,15 @@ function replyButtonsTemplate($bot, $replyToken, $alternativeText, $imageUrl, $t
 	if (!$response->isSucceeded()) {
 		// エラーを出力
 		error_log('Failed! ' . $response->getHTTPStatus . ' ' . $response->getRawBody());
+	}
+}
+
+// 位置情報を返信
+function replyLocationMessage($bot, $replyToken, $title, $address, $lat, $lon)
+{
+	$response = $bot->replyMessage($replyToken, new LINE\LINEBot\MessageBuilder\LocationMessageBuilder($title, $address, $lat, $lon));
+	if (!$response->isSucceeded()) {
+		error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
 	}
 }
 
