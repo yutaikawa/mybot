@@ -47,6 +47,20 @@ $image_array = [
 	'https://d2jv9003bew7ag.cloudfront.net/uploads/Andy-Warhol-Elizabeth-Taylor-Liz-number-5.jpg',
 ];
 
+$columnArray = [];
+$column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
+	'test',
+	'test text',
+	'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg'
+);
+array_push($columnArray, $column1);
+$column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
+	'tes2',
+	'test tex2',
+	'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg'
+);
+array_push($columnArray, $column2);
+
 // 各イベントをループで処理
 foreach ($events as $event) {
 //	$user_text = $event->getText();
@@ -64,12 +78,16 @@ foreach ($events as $event) {
 //		);
 //	}
 
+
+
 	replyCarouselImage(
 		$bot,
 		$event->getReplyToken(),
 		'maxim image',
-		$image_array
+		$columnArray
 	);
+
+
 
 }
 
@@ -157,6 +175,21 @@ function replyCarouselImage($bot, $replyToken, $alternativeText, $imagesArray)
 		new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder(
 			$imagesArray
 		)
+	);
+	$response = $bot->replyMessage($replyToken, $builder);
+	if (!$response->isSucceeded()) {
+		error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
+	}
+}
+
+// Carouselテンプレートを返信。引数はLINEBot、返信先、代替テキスト、
+// ダイアログの配列
+function replyCarouselTemplate($bot, $replyToken, $alternativeText, $columnArray) {
+	$builder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
+		$alternativeText,
+		// Carouselテンプレートの引数はダイアログの配列
+		new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder (
+			$columnArray)
 	);
 	$response = $bot->replyMessage($replyToken, $builder);
 	if (!$response->isSucceeded()) {
