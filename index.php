@@ -41,6 +41,12 @@ $image_array = [
 	]
 ];
 
+$image_array = [
+	'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
+	'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
+	'https://d2jv9003bew7ag.cloudfront.net/uploads/Andy-Warhol-Elizabeth-Taylor-Liz-number-5.jpg',
+]
+
 // 各イベントをループで処理
 foreach ($events as $event) {
 //	$user_text = $event->getText();
