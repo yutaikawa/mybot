@@ -13,17 +13,20 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 // 各イベントをループで処理
 foreach ($events as $event) {
 	$user_text = $event->getText();
-	error_log($user_text);
+	$search_word = '住所';
 
-	// Confirmメッセージを返信
-	replyLocationMessage(
-		$bot,
-		$event->getReplyToken(),
-		'maxim',
-		'兵庫県神戸市中央区磯辺通３丁目２−１１ 8F 三宮ファーストビル',
-		34.689580,
-		135.198358
-	);
+	if (mb_strpos($user_text, $search_word)) {
+		// Confirmメッセージを返信
+		replyLocationMessage(
+			$bot,
+			$event->getReplyToken(),
+			'maxim',
+			'兵庫県神戸市中央区磯辺通３丁目２−１１ 8F 三宮ファーストビル',
+			34.689580,
+			135.198358
+		);
+	}
+
 }
 
 // テキストを返信。引数はLINEBot,返信先,テキスト
