@@ -10,22 +10,60 @@ $signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATUR
 // 署名のチェック
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
+// 画像を保存する配列
+$image_array = [
+//	'type' => 'image_carousel',
+	'columns' => [
+		[
+			'imageUrl' => 'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
+			'action' => [
+				'type' => 'postback',
+				'label' => 'Buy',
+				'data' => 'action=buy&itemid=111'
+			]
+		],
+		[
+			'imageUrl' => 'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
+			'action' => [
+				'type' => 'postback',
+				'label' => 'Buy',
+				'data' => 'action=buy&itemid=111'
+			]
+		],
+		[
+			'imageUrl' => 'https://d2jv9003bew7ag.cloudfront.net/uploads/Andy-Warhol-Elizabeth-Taylor-Liz-number-5.jpg',
+			'action' => [
+				'type' => 'postback',
+				'label' => 'Buy',
+				'data' => 'action=buy&itemid=111'
+			]
+		],
+	]
+];
+
 // 各イベントをループで処理
 foreach ($events as $event) {
-	$user_text = $event->getText();
-	$search_word = '住所';
+//	$user_text = $event->getText();
+//	$search_word = '住所';
+//
+//	if (mb_strpos($user_text, $search_word) !== false) {
+//		// Confirmメッセージを返信
+//		replyLocationMessage(
+//			$bot,
+//			$event->getReplyToken(),
+//			'maxim',
+//			'兵庫県神戸市中央区磯辺通３丁目２−１１ 8F 三宮ファーストビル',
+//			34.689580,
+//			135.198358
+//		);
+//	}
 
-	if (mb_strpos($user_text, $search_word) !== false) {
-		// Confirmメッセージを返信
-		replyLocationMessage(
-			$bot,
-			$event->getReplyToken(),
-			'maxim',
-			'兵庫県神戸市中央区磯辺通３丁目２−１１ 8F 三宮ファーストビル',
-			34.689580,
-			135.198358
-		);
-	}
+	replyCarouselImage(
+		$bot,
+		$event->getReplyToken(),
+		'maxim image',
+		$image_array
+	);
 
 }
 
@@ -97,5 +135,25 @@ function replyConfirmTemplate($bot, $replyToken, $alternativeText, $text, ...$ac
 	if (!$response->isSucceeded()) {
 		// エラーを出力
 		error_log('Failed! ' . $response->getHTTPStatus . ' ' . $response->getRawBody());
+	}
+}
+
+function replyCarouselImage($bot, $replyToken, $alternativeText, $imagesArray)
+{
+//	$imageArray = [];
+//	// 画像を追加
+//	foreach ($imagesArray as $image) {
+//		array_push($imageArray, $image);
+//	}
+
+	$builder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
+		$alternativeText,
+		new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder(
+			$imagesArray
+		)
+	);
+	$response = $bot->replyMessage($replyToken, $builder);
+	if (!$response->isSucceeded()) {
+		error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
 	}
 }
