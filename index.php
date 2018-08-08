@@ -12,6 +12,9 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
 // 各イベントをループで処理
 foreach ($events as $event) {
+	$user_text = $event->getText();
+	error_log($user_text);
+
 	// Confirmメッセージを返信
 	replyLocationMessage(
 		$bot,
