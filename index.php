@@ -23,13 +23,17 @@ foreach ($events as $event) {
 			'切り替えレースブラウス [C3387]',
 			'1,890円（税込）',
 			'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3387.jpg',
-			$actionArray
+			[
+				new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('詳細を見る', 'https://www.lettuce.co.jp/products/detail/11484')
+			]
 		),
 		new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
 			'袖ボリュームスキッパーシャツ [C3397]',
 			'1,690円（税込）',
 			'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3397.jpg',
-			$actionArray
+			[
+				new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('詳細を見る', 'https://www.lettuce.co.jp/products/detail/11413')
+			]
 		),
 	];
 
