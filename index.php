@@ -120,10 +120,10 @@ foreach ($events as $event) {
 
 		$actionArray = [
 			new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-				'商品1'
+				'商品1', '商品1'
 			),
 			new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-				'商品2'
+				'商品2', '商品2'
 			),
 		];
 
