@@ -101,49 +101,49 @@ foreach ($events as $event) {
 
 	$columnArray = [];
 	$actionArray = [];
-//	for ($i = 0; $i < 5; $i++) {
-//		$actionArray = [];
-//		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-//			'ボタン'.$i.'-'. 1, 'c-'.$i.'-'. 1));
-//		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-//			'ボタン'.$i.'-'. 2, 'c-'.$i.'-'. 2));
-//		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-//			'ボタン'.$i.'-'. 3, 'c-'.$i.'-'. 3));
+	for ($i = 0; $i < 5; $i++) {
+		$actionArray = [];
+		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+			'ボタン'.$i.'-'. 1, 'c-'.$i.'-'. 1));
+		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+			'ボタン'.$i.'-'. 2, 'c-'.$i.'-'. 2));
+		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+			'ボタン'.$i.'-'. 3, 'c-'.$i.'-'. 3));
+
+		$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
+			($i+1).'日後の天気',
+			'はれ',
+			'https://'.$_SERVER['HTTP_HOST'].'/imgs/template.jpg',
+			$actionArray
+		);
+		array_push($columnArray, $column);
+
+//		$actionArray = [
+//			new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+//				''
+//			),
+//			new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+//				''
+//			),
+//		];
 //
-//		$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
-//			($i+1).'日後の天気',
-//			'はれ',
-//			'https://'.$_SERVER['HTTP_HOST'].'/imgs/template.jpg',
-//			$actionArray
-//		);
-//		array_push($columnArray, $column);
-
-		$actionArray = [
-			new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-				''
-			),
-			new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
-				''
-			),
-		];
-
-		$columnArray = [
-			new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
-				'切り替えレースブラウス [C3387]',
-				'1,890円（税込）',
-				'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3387.jpg',
-				$actionArray
-			),
-			new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
-				'袖ボリュームスキッパーシャツ [C3397]',
-				'1,690円（税込）',
-				'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3397.jpg',
-				$actionArray
-			),
-		];
+//		$columnArray = [
+//			new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
+//				'切り替えレースブラウス [C3387]',
+//				'1,890円（税込）',
+//				'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3387.jpg',
+//				$actionArray
+//			),
+//			new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
+//				'袖ボリュームスキッパーシャツ [C3397]',
+//				'1,690円（税込）',
+//				'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3397.jpg',
+//				$actionArray
+//			),
+//		];
 
 
-//	}
+	}
 	replyCarouselTemplate($bot, $event->getReplyToken(), '今後の天気', $columnArray);
 
 
