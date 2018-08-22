@@ -99,6 +99,7 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 // 各イベントをループで処理
 foreach ($events as $event) {
 
+	$columnArray = [];
 	for ($i = 0; $i < 5; $i++) {
 		$actionArray = [];
 		array_push($actionArray, \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
