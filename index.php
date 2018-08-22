@@ -11,34 +11,34 @@ $signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATUR
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
 
-$columns = [];// カルーセルに表示する項目
-foreach ($lists as $list) {
-	$action = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('クリックしてね', 'https://www.lettuce.co.jp/products/detail/11484?top/new/photo');
-	$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder('切り替えレースブラウス [C3387]', '', 'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3387.jpg', [$action]);
-	$columns[] = $column;
-}
-
-$carousel = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder($columns);
-$carousel_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('メッセージタイトル', $carousel);
-
-
-// 「はい」ボタン
-$yes_post = new PostbackTemplateActionBuilder("はい", "page={$page}");
-// 「いいえ」ボタン
-$no_post = new PostbackTemplateActionBuilder("いいえ", "page=-1");
-// Confirmテンプレートを作る
-$confirm = new ConfirmTemplateBuilder("メッセージ", [$yes_post, $no_post]);
-// Confirmメッセージを作る
-$confirm_message = new TemplateMessageBuilder("メッセージのタイトル", $confirm);
-
-
-$message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-$message->add($carousel_message);
-$message->add($confirm_message);
-$res = $bot->replyMessage($event->getReplyToken(), $message);
-
-
+//$columns = [];// カルーセルに表示する項目
+//foreach ($lists as $list) {
+//	$action = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('クリックしてね', 'https://www.lettuce.co.jp/products/detail/11484?top/new/photo');
+//	$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder('切り替えレースブラウス [C3387]', '', 'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3387.jpg', [$action]);
+//	$columns[] = $column;
+//}
 //
+//$carousel = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder($columns);
+//$carousel_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('メッセージタイトル', $carousel);
+//
+//
+//// 「はい」ボタン
+//$yes_post = new PostbackTemplateActionBuilder("はい", "page={$page}");
+//// 「いいえ」ボタン
+//$no_post = new PostbackTemplateActionBuilder("いいえ", "page=-1");
+//// Confirmテンプレートを作る
+//$confirm = new ConfirmTemplateBuilder("メッセージ", [$yes_post, $no_post]);
+//// Confirmメッセージを作る
+//$confirm_message = new TemplateMessageBuilder("メッセージのタイトル", $confirm);
+//
+//
+//$message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+//$message->add($carousel_message);
+//$message->add($confirm_message);
+//$res = $bot->replyMessage($event->getReplyToken(), $message);
+
+
+
 //
 //
 //// 画像を保存する配列
@@ -95,36 +95,32 @@ $res = $bot->replyMessage($event->getReplyToken(), $message);
 //	$action_array
 //);
 //array_push($columnArray, $column2);
-//
-//// 各イベントをループで処理
-//foreach ($events as $event) {
-////	$user_text = $event->getText();
-////	$search_word = '住所';
-////
-////	if (mb_strpos($user_text, $search_word) !== false) {
-////		// Confirmメッセージを返信
-////		replyLocationMessage(
-////			$bot,
-////			$event->getReplyToken(),
-////			'maxim',
-////			'兵庫県神戸市中央区磯辺通３丁目２−１１ 8F 三宮ファーストビル',
-////			34.689580,
-////			135.198358
-////		);
-////	}
-//
-//
-//
-//	replyCarouselImage(
-//		$bot,
-//		$event->getReplyToken(),
-//		'maxim image',
-//		$columnArray
-//	);
-//
-//
-//
-//}
+
+// 各イベントをループで処理
+foreach ($events as $event) {
+
+	for ($i = 0; $i < 5; $i++) {
+		$actionArray = [];
+		array_push($actionArray, \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+			'ボタン'.$i.'-'.1, 'c-'.$i.'-'.1));
+		array_push($actionArray, \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+			'ボタン'.$i.'-'.2, 'c-'.$i.'-'.2));
+		array_push($actionArray, \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+			'ボタン'.$i.'-'.3, 'c-'.$i.'-'.3));
+
+		$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
+			($i+1).'日後の天気',
+			'はれ',
+			'https://'.$_SERVER['HTTP_HOST'].'/imgs/template.jpg',
+			$actionArray
+		);
+		array_push($columnArray, $column);
+	}
+	replyCarouselTemplate($bot, $event->getReplyToken(), '今後の天気', $columnArray);
+
+
+
+}
 
 // テキストを返信。引数はLINEBot,返信先,テキスト
 function replyTextMessage($bot, $replyToken, $text)
