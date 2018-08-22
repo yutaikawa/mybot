@@ -10,90 +10,121 @@ $signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATUR
 // 署名のチェック
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
-// 画像を保存する配列
-$image_array = [
-//	'type' => 'image_carousel',
-	'columns' => [
-		[
-			'imageUrl' => 'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
-			'action' => [
-				'type' => 'postback',
-				'label' => 'Buy',
-				'data' => 'action=buy&itemid=111'
-			]
-		],
-		[
-			'imageUrl' => 'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
-			'action' => [
-				'type' => 'postback',
-				'label' => 'Buy',
-				'data' => 'action=buy&itemid=111'
-			]
-		],
-		[
-			'imageUrl' => 'https://d2jv9003bew7ag.cloudfront.net/uploads/Andy-Warhol-Elizabeth-Taylor-Liz-number-5.jpg',
-			'action' => [
-				'type' => 'postback',
-				'label' => 'Buy',
-				'data' => 'action=buy&itemid=111'
-			]
-		],
-	]
-];
 
-$image_array = [
-	'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
-	'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
-	'https://d2jv9003bew7ag.cloudfront.net/uploads/Andy-Warhol-Elizabeth-Taylor-Liz-number-5.jpg',
-];
-
-$columnArray = [];
-$action_array = [];
-array_push($action_array, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(''));
-$column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
-	'test',
-	'test text',
-	'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
-	$action_array
-);
-array_push($columnArray, $column1);
-$column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
-	'tes2',
-	'test tex2',
-	'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
-	$action_array
-);
-array_push($columnArray, $column2);
-
-// 各イベントをループで処理
-foreach ($events as $event) {
-//	$user_text = $event->getText();
-//	$search_word = '住所';
-//
-//	if (mb_strpos($user_text, $search_word) !== false) {
-//		// Confirmメッセージを返信
-//		replyLocationMessage(
-//			$bot,
-//			$event->getReplyToken(),
-//			'maxim',
-//			'兵庫県神戸市中央区磯辺通３丁目２−１１ 8F 三宮ファーストビル',
-//			34.689580,
-//			135.198358
-//		);
-//	}
-
-
-
-	replyCarouselImage(
-		$bot,
-		$event->getReplyToken(),
-		'maxim image',
-		$columnArray
-	);
-
-
-
+$columns = [];// カルーセルに表示する項目
+foreach ($lists as $list) {
+	$action = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('クリックしてね', 'https://www.lettuce.co.jp/products/detail/11484?top/new/photo');
+	$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder('切り替えレースブラウス [C3387]', '', 'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3387.jpg', [$action]);
+	$columns[] = $column;
 }
+
+$carousel = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder($columns);
+$carousel_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('メッセージタイトル', $carousel);
+
+
+// 「はい」ボタン
+$yes_post = new PostbackTemplateActionBuilder("はい", "page={$page}");
+// 「いいえ」ボタン
+$no_post = new PostbackTemplateActionBuilder("いいえ", "page=-1");
+// Confirmテンプレートを作る
+$confirm = new ConfirmTemplateBuilder("メッセージ", [$yes_post, $no_post]);
+// Confirmメッセージを作る
+$confirm_message = new TemplateMessageBuilder("メッセージのタイトル", $confirm);
+
+
+$message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+$message->add($carousel_message);
+$message->add($confirm_message);
+$res = $bot->replyMessage($event->getReplyToken(), $message);
+
+
+//
+//
+//
+//// 画像を保存する配列
+//$image_array = [
+////	'type' => 'image_carousel',
+//	'columns' => [
+//		[
+//			'imageUrl' => 'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
+//			'action' => [
+//				'type' => 'postback',
+//				'label' => 'Buy',
+//				'data' => 'action=buy&itemid=111'
+//			]
+//		],
+//		[
+//			'imageUrl' => 'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
+//			'action' => [
+//				'type' => 'postback',
+//				'label' => 'Buy',
+//				'data' => 'action=buy&itemid=111'
+//			]
+//		],
+//		[
+//			'imageUrl' => 'https://d2jv9003bew7ag.cloudfront.net/uploads/Andy-Warhol-Elizabeth-Taylor-Liz-number-5.jpg',
+//			'action' => [
+//				'type' => 'postback',
+//				'label' => 'Buy',
+//				'data' => 'action=buy&itemid=111'
+//			]
+//		],
+//	]
+//];
+//
+//$image_array = [
+//	'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
+//	'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
+//	'https://d2jv9003bew7ag.cloudfront.net/uploads/Andy-Warhol-Elizabeth-Taylor-Liz-number-5.jpg',
+//];
+//
+//$columnArray = [];
+//$action_array = [];
+//array_push($action_array, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(''));
+//$column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
+//	'test',
+//	'test text',
+//	'https://images-na.ssl-images-amazon.com/images/I/51uci%2BizOLL.jpg',
+//	$action_array
+//);
+//array_push($columnArray, $column1);
+//$column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
+//	'tes2',
+//	'test tex2',
+//	'https://i.pinimg.com/736x/25/d8/06/25d8066d88186212920e775d9a7140bb--popart-google-search.jpg',
+//	$action_array
+//);
+//array_push($columnArray, $column2);
+//
+//// 各イベントをループで処理
+//foreach ($events as $event) {
+////	$user_text = $event->getText();
+////	$search_word = '住所';
+////
+////	if (mb_strpos($user_text, $search_word) !== false) {
+////		// Confirmメッセージを返信
+////		replyLocationMessage(
+////			$bot,
+////			$event->getReplyToken(),
+////			'maxim',
+////			'兵庫県神戸市中央区磯辺通３丁目２−１１ 8F 三宮ファーストビル',
+////			34.689580,
+////			135.198358
+////		);
+////	}
+//
+//
+//
+//	replyCarouselImage(
+//		$bot,
+//		$event->getReplyToken(),
+//		'maxim image',
+//		$columnArray
+//	);
+//
+//
+//
+//}
 
 // テキストを返信。引数はLINEBot,返信先,テキスト
 function replyTextMessage($bot, $replyToken, $text)
