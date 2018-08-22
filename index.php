@@ -20,19 +20,21 @@ foreach ($events as $event) {
 
 	$columnArray = [
 		new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
-			'切り替えレースブラウス [C3387]',
-			'1,890円（税込）',
-			'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3387.jpg',
+			'選べる4TYPE★５分袖リブニット[C3147]',
+			'1,590 円(税込) ',
+			'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3147.jpg',
 			[
-				new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('詳細を見る', 'https://www.lettuce.co.jp/products/detail/11484')
+				new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('詳細を見る', 'https://www.lettuce.co.jp/products/detail/10729'),
+				new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('コーデを見る', 'https://www.lettuce.co.jp/coordinate/list?word=C3147&height=&name=&layer=1&sort=1'),
 			]
 		),
 		new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
-			'袖ボリュームスキッパーシャツ [C3397]',
+			'【2018AW】選べるTブラウス [C3441]',
 			'1,690円（税込）',
-			'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3397.jpg',
+			'https://files.lettuce.co.jp/images_set02/goods_images/goods_detail/c3441.jpg',
 			[
-				new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('詳細を見る', 'https://www.lettuce.co.jp/products/detail/11413')
+				new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('詳細を見る', 'https://www.lettuce.co.jp/products/detail/11492'),
+				new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('コーデを見る', 'https://www.lettuce.co.jp/coordinate/list?word=C3441&height=&name=&layer=1&sort=1'),
 			]
 		),
 	];
