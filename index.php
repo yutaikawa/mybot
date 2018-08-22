@@ -102,11 +102,11 @@ foreach ($events as $event) {
 	$columnArray = [];
 	for ($i = 0; $i < 5; $i++) {
 		$actionArray = [];
-		array_push($actionArray, \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
 			'ボタン'.$i.'-'. 1, 'c-'.$i.'-'. 1));
-		array_push($actionArray, \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
 			'ボタン'.$i.'-'. 2, 'c-'.$i.'-'. 2));
-		array_push($actionArray, \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+		array_push($actionArray, new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
 			'ボタン'.$i.'-'. 3, 'c-'.$i.'-'. 3));
 
 		$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder(
