@@ -13,6 +13,7 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 // 各イベントをループで処理
 foreach ($events as $event) {
 
+	/*
 	$actionArray = [
 		new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('詳細を見る', '詳細を見る'),
 		new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('コーデを見る', 'コーデを見る'),
@@ -40,6 +41,25 @@ foreach ($events as $event) {
 	];
 
 	replyCarouselTemplate($bot, $event->getReplyToken(), 'おすすめ商品', $columnArray);
+	*/
+
+	replyButtonsTemplate(
+		$bot,
+		$event->getReplyToken(),
+		'お天気お知らせ - 天気予報',
+		'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+		'天気お知らせ',
+		'今日は天気予報は晴れです',
+		new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder(
+			'明日の天気', 'tomorrow'
+		),
+		new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder(
+			'週末の天気', 'weekend'
+		),
+		new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder(
+			'webで見る', 'http://google.jp'
+		)
+	);
 
 }
 
