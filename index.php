@@ -10,6 +10,10 @@ $signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATUR
 // 署名のチェック
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
+// POSTデータをログに出力
+$input_string = file_get_contents('php://input');
+error_log($input_string);
+
 // 各イベントをループで処理
 foreach ($events as $event) {
 
