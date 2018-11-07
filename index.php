@@ -58,7 +58,7 @@ foreach ($events as $event) {
 	replyCarouselTemplate($bot, $event->getReplyToken(), 'おすすめ商品', $columnArray);
 	*/
 
-	return  $bot->replyMessage($event->getReplyToken(), new TextMessageBuilder($text));
+	return  $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text));
 
 	replyButtonsTemplate(
 		$bot,
