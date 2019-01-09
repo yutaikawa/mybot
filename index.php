@@ -10,25 +10,9 @@ $signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATUR
 // 署名のチェック
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 
-// POSTデータをログに出力
-$input_string = file_get_contents('php://input');
-error_log($input_string);
-
 // 各イベントをループで処理
 foreach ($events as $event) {
 
-	$remote = $_SERVER['REMOTE_ADDR'];
-	$xforward = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : false;
-
-	$a = [
-		'REMOTE_ADDR' => $remote,
-	];
-	if ($xforward !== false) {
-		array_push($a, $xforward);
-	}
-	$text = implode(',', $a);
-
-	/*
 	$actionArray = [
 		new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('詳細を見る', '詳細を見る'),
 		new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('コーデを見る', 'コーデを見る'),
@@ -56,10 +40,8 @@ foreach ($events as $event) {
 	];
 
 	replyCarouselTemplate($bot, $event->getReplyToken(), 'おすすめ商品', $columnArray);
-	*/
 
-	return  $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text));
-
+	/*
 	replyButtonsTemplate(
 		$bot,
 		$event->getReplyToken(),
@@ -77,6 +59,7 @@ foreach ($events as $event) {
 			'webで見る', 'http://google.jp'
 		)
 	);
+	*/
 
 }
 
